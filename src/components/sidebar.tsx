@@ -5,7 +5,8 @@ import { FaCreditCard, FaChartPie, FaRegMap, FaThumbsUp } from "react-icons/fa";
 import { FaBullseye, FaArrowTrendUp } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
 import Image from 'next/image';
-import wealthsimple from '../../public/wealthsimple.png'
+import { Link } from 'react-router-dom';
+
 const Sidebar: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-blue-800 text-white">
@@ -28,38 +29,38 @@ const Sidebar: React.FC = () => {
       </div>
 
       <div className="flex flex-col px-4">
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
+        <Link to="/" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <IoHomeSharp className="mr-2" /> Dashboard
-        </a>        
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
+        </Link>    
+        <Link to="/accounts" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <BsStack className="mr-2" /> Accounts
-        </a>
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
+        </Link>
+        <Link to="/transactions" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <FaCreditCard className="mr-2" /> Transactions
-        </a>
+        </Link>
 
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
+        <Link to="/cashflow" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <IoBarChart className="mr-2" /> Cashflow
-        </a>
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded relative">
+        </Link>
+        <Link to="/reports" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <FaChartPie className="mr-2" /> Reports
           <span className="absolute top-0 right-0 bg-blue-400 text-xs rounded px-2 py-1">BETA</span>
-        </a>
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
+        </Link>
+        <Link to="/budget" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <FaRegMap className="mr-2" /> Budget
-        </a>
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
+        </Link>
+        <Link to="/recurring" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <CiCalendar className="mr-2" /> Recurring
-        </a>
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
+        </Link>
+        <Link to="/goals" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <FaBullseye className="mr-2" /> Goals
-        </a>
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
+        </Link>
+        <Link to="/investments" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <FaArrowTrendUp className="mr-2" /> Investments
-        </a>
-        <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
+        </Link>
+        <Link to="/advice" className="flex items-center py-2 hover:bg-blue-700 rounded">
           <FaThumbsUp className="mr-2" /> Advice
-        </a>
+        </Link>
       </div>
 
       <div className="flex flex-col px-4 mt-auto">
