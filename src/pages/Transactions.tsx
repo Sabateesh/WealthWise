@@ -7,7 +7,6 @@ const Transactions: React.FC = () => {
       <h1 className="text-3xl text-blue-500 font-bold mb-6">Transactions</h1>
       
       <div className="flex">
-        {/* Main content - Transactions Table */}
         <div className="flex-grow pl-10">
           <div className="mb-4 flex justify-between">
             <div>
@@ -23,7 +22,6 @@ const Transactions: React.FC = () => {
           </div>
 
           <div className="bg-white shadow rounded">
-            {/* Example transaction */}
             <div className="p-4 border-b border-gray-200">
               <div className="flex justify-between">
                 <div>
@@ -36,24 +34,18 @@ const Transactions: React.FC = () => {
                 </div>
               </div>
             </div>
-            {/* ... Repeat for each transaction ... */}
           </div>
         </div>
 
-        {/* Sidebar - Filter & Summary */}
         <div className="w-1/4 ml-4">
-          {/* Filter Section */}
           <div className="bg-white p-4 shadow rounded mb-4">
             <h2 className="text-lg font-bold mb-4">Filter</h2>
-            {/* Filter form elements here */}
             <div className="mb-4">
               <label className="block text-gray-700 mb-1">Search</label>
               <input type="text" className="w-full border border-gray-300 rounded px-2 py-1" />
             </div>
-            {/* ... more filters ... */}
           </div>
           
-          {/* Summary Section */}
           <div className="bg-white p-4 shadow rounded">
             <h2 className="text-lg font-bold mb-4">Summary</h2>
             <div className="text-gray-700 mb-2">Total transactions: <span className="font-bold">1,335</span></div>
