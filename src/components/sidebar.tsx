@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
   return (
-    <div className="flex flex-col h-screen bg-blue-800 text-white">
+    <div className="flex flex-col h-screen bg-[#1348A5] text-white">
         <div className="flex items-center justify-between p-4">
         <Image
           src= '/wealthsimple.png'
