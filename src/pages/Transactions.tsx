@@ -1,11 +1,15 @@
 // src/pages/Transactions.tsx
 import React from 'react';
+import { AiOutlineMenu } from 'react-icons/ai';
+
 
 const Transactions: React.FC = () => {
   return (
-    <div className="container mx-auto my-8">
-      <h1 className="text-3xl text-blue-500 font-bold mb-6">Transactions</h1>
-      
+    <div className="container pl-0 pr-0">
+    <div className="flex items-center mb-6 bg-[#FFF] p-4 rounded-lg">
+      <AiOutlineMenu className="text-xl text-[#082864] mr-2" />
+      <h1 className="text-2xl text-[#082864] font-medium">Transactions</h1>
+    </div>        
       <div className="flex">
         <div className="flex-grow pl-10">
           <div className="mb-4 flex justify-between">

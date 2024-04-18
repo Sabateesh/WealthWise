@@ -5,22 +5,28 @@ import { FaCreditCard, FaChartPie, FaRegMap, FaThumbsUp } from "react-icons/fa";
 import { FaBullseye, FaArrowTrendUp } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
 import Image from 'next/image';
+import { IoChatbubbleOutline } from "react-icons/io5";
+import { useDisclosure } from '@chakra-ui/react';
+import HelpSupportModal from './HelpSupportModel';
+import { Button} from '@chakra-ui/react'
 import { Link } from 'react-router-dom';
-
+import { ChakraProvider } from '@chakra-ui/react';
 const Sidebar: React.FC = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <div className="flex flex-col h-screen bg-[#1348A5] text-white">
-        <div className="flex items-center justify-between p-4">
+        <div className="flex items-center justify-between p-1">
         <Image
           src= '/wealthsimple.png'
           alt="Icon description"
-          width={40}
-          height={40}
+          width={50}
+          height={50}
           className="rounded-full"
         />
       </div>
 
-      <div className="px-4 py-2">
+      <div className="px-4 py-4 border-t border-blue-700">
         <div className="text-sm">Free trial</div>
         <div className="w-full bg-blue-300 rounded-full h-2 my-2">
           <div className="bg-green-500 h-2 rounded-full" style={{ width: '70%' }}></div>
@@ -28,47 +34,51 @@ const Sidebar: React.FC = () => {
         <div className="text-xs">7 days left</div>
       </div>
 
-      <div className="flex flex-col px-4">
-        <Link to="/" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <IoHomeSharp className="mr-2" /> Dashboard
+      <div className="flex flex-col">
+        <Link to="/" className="flex items-center py-3.5 pl-4 hover:bg-blue-700 rounded-xl">
+          <IoHomeSharp className="mr-4" /> Dashboard
         </Link>    
-        <Link to="/accounts" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <BsStack className="mr-2" /> Accounts
+        <Link to="/accounts" className="flex items-center pl-4 py-3.5 hover:bg-blue-700 rounded-xl">
+          <BsStack className="mr-4" /> Accounts
         </Link>
-        <Link to="/transactions" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <FaCreditCard className="mr-2" /> Transactions
+        <Link to="/transactions" className="flex items-center pl-4 py-3.5 hover:bg-blue-700 rounded-xl">
+          <FaCreditCard className="mr-4" /> Transactions
         </Link>
 
-        <Link to="/cashflow" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <IoBarChart className="mr-2" /> Cashflow
+        <Link to="/cashflow" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+          <IoBarChart className="mr-4" /> Cashflow
         </Link>
-        <Link to="/reports" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <FaChartPie className="mr-2" /> Reports
-          <span className="absolute top-0 right-0 bg-blue-400 text-xs rounded px-2 py-1">BETA</span>
+        <Link to="/reports" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+          <FaChartPie className="mr-4" /> Reports
         </Link>
-        <Link to="/budget" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <FaRegMap className="mr-2" /> Budget
+        <Link to="/budget" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+          <FaRegMap className="mr-4" /> Budget
         </Link>
-        <Link to="/recurring" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <CiCalendar className="mr-2" /> Recurring
+        <Link to="/recurring" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+          <CiCalendar className="mr-4" /> Recurring
         </Link>
-        <Link to="/goals" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <FaBullseye className="mr-2" /> Goals
+        <Link to="/goals" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+          <FaBullseye className="mr-4" /> Goals
         </Link>
-        <Link to="/investments" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <FaArrowTrendUp className="mr-2" /> Investments
+        <Link to="/investments" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+          <FaArrowTrendUp className="mr-4" /> Investments
         </Link>
-        <Link to="/advice" className="flex items-center py-2 hover:bg-blue-700 rounded">
-          <FaThumbsUp className="mr-2" /> Advice
+        <Link to="/advice" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+          <FaThumbsUp className="mr-4" /> Advice
         </Link>
       </div>
 
-      <div className="flex flex-col px-4 mt-auto">
+      <div className="flex flex-col mt-auto">
         <div className="mb-100">
-          <a href="#" className="flex items-center py-2 hover:bg-blue-700 rounded">
-            <IoGiftOutline className="mr-2" /> Get 1 Month Free
+          <a href="#" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded">
+            <IoGiftOutline className="mr-4" /> Get 1 Month Free
           </a>
-          <a href="#" className="py-2 hover:bg-blue-700 rounded">Help & Support</a>
+        <ChakraProvider>
+          <Button onClick={onOpen} className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded">
+            <IoChatbubbleOutline className='mr-4'/> Help & Support
+            <HelpSupportModal isOpen={isOpen} onClose={onClose} />
+          </Button>
+        </ChakraProvider>
           </div>
       </div>
 

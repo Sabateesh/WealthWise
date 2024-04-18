@@ -16,11 +16,13 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <div className="flex min-h-screen bg-gray-100">
-        <aside className="w-64 bg-blue-800 text-white">
+        {/* Sidebar */}
+        <aside className="fixed top-0 left-0 w-60 h-screen bg-blue-800 text-white overflow-y-auto z-10">
           <Sidebar />
         </aside>
 
-        <main className="flex-1 pl-1">
+        {/* Main content area */}
+        <main className="flex-1 ml-60 bg[#F0F4F8] overflow-auto">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/accounts" element={<Accounts />} />
