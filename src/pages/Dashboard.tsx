@@ -6,6 +6,10 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import GoalsCard from '../components/GoalsCard';
 import InvestmentsCard from '../components/InvestmentsCard';
 import TransactionsCard from '../components/TransactionsCard';
+import HoldingsCard from '../components/HoldingsCard';
+import CashCard from '../components/Cash';
+import IdentityCard from '../components/Identitiy';
+
 
 const Dashboard: React.FC = () => {
   return (
@@ -28,6 +32,15 @@ const Dashboard: React.FC = () => {
           <NetWorthCard />
           <div className="mt-6 pr-3">
             <InvestmentsCard />
+          </div>
+          <div className="mt-6 pr-3">
+            <HoldingsCard/>
+          </div>
+          <div className="mt-6 pr-3">
+            <CashCard/>
+          </div>
+          <div className="mt-6 pr-3">
+            <IdentityCard/>
           </div>
         </div>
       </div>

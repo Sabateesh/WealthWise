@@ -261,16 +261,27 @@ def get_access_token():
     global access_token
     global item_id
     global transfer_id
-    public_token = request.form['public_token']
+
+    # Using request.get_json() to extract data sent in JSON format
+    data = request.get_json()
+    public_token = data.get('public_token')
+
+    if not public_token:
+        return jsonify({'error': 'public_token not provided'}), 400
+
     try:
         exchange_request = ItemPublicTokenExchangeRequest(
-            public_token=public_token)
+            public_token=public_token
+        )
         exchange_response = client.item_public_token_exchange(exchange_request)
         access_token = exchange_response['access_token']
         item_id = exchange_response['item_id']
-        return jsonify(exchange_response.to_dict())
+
+        return jsonify(exchange_response.to_dict()), 200
+
     except plaid.ApiException as e:
-        return json.loads(e.body)
+        response_body = json.loads(e.body)
+        return jsonify(response_body), e.status_code
 
 
 # Retrieve ACH or ETF account numbers for an Item

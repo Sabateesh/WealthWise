@@ -1,48 +1,87 @@
-// src/components/TransactionsCard.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdTransferWithinAStation, MdOutlinePhonelinkErase, MdCreditCard } from 'react-icons/md';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
+
+type Transaction = {
+  date: string;
+  name: string; 
+  amount: number; 
+  category: string;
+};
 
 const TransactionsCard: React.FC = () => {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/transactions', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        setTransactions(data.latest_transactions);
+      } catch (error) {
+        console.error('There was an issue fetching the transactions:', error);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
+
+  const renderIcon = (category: string) => {
+    switch (category) {
+      case 'Transfer':
+        return <MdTransferWithinAStation className="text-blue-500" />;
+      case 'Electronics':
+        return <MdOutlinePhonelinkErase className="text-green-500" />;
+      case 'Credit Card':
+        return <MdCreditCard className="text-red-500" />;
+      default:
+        return null;
+    }
+  };
+  const handleViewAllClick = () => {
+    navigate('/transactions');
+  };
+
   return (
     <div className="bg-white shadow rounded-lg">
       <div className="p-4 border-b">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold">Most recent</h2>
-          <button className="bg-transparent hover:bg-gray-200 font-semibold py-1 px-2 border border-gray-300 rounded">
-            All transactions
+          <h2 className="text-lg font-bold">Recent Transactions</h2>
+          <button
+          onClick={handleViewAllClick} 
+          className="bg-transparent hover:bg-gray-200 font-semibold py-1 px-2 border border-gray-300 rounded"
+          >
+            View all
           </button>
         </div>
-        <div>
-          {[
-            { label: 'From', category: 'Transfer', amount: '+$20.00' },
-            { label: 'Interac', category: 'Transfer', amount: '$1,500.00' },
-            { label: 'Apple', category: 'Electronics', amount: '$10.16' },
-            { label: 'WealthSimple', category: 'Transfer', amount: '$17.06' },
-            { label: 'Mobile Banking Transfer', category: 'Credit Card', amount: '$20.00' },
-          ].map((transaction, index) => (
-            <div key={index} className="flex justify-between items-center py-3 border-b">
-              <div className="flex items-center">
-                <span className="mr-3">
-                  {transaction.category === 'Transfer' && <MdTransferWithinAStation className="text-blue-500" />}
-                  {transaction.category === 'Electronics' && <MdOutlinePhonelinkErase className="text-green-500" />}
-                  {transaction.category === 'Credit Card' && <MdCreditCard className="text-red-500" />}
-                </span>
-                <span className="font-medium">{transaction.label}</span>
-                <span className="text-gray-500 mx-2">{transaction.category}</span>
-              </div>
-              <div className="flex items-center">
-                <span className={`${transaction.amount.startsWith('+') ? 'text-green-500' : 'text-red-500'} font-bold`}>
-                  {transaction.amount}
-                </span>
-                <BsThreeDotsVertical className="text-gray-500 ml-2" />
-              </div>
+        {transactions.map((transaction, index) => (
+          <div key={index} className="flex justify-between items-center py-3 border-b">
+            <div className="flex items-center">
+              {renderIcon(transaction.category)}
+              <span className="font-medium">{transaction.name}</span>
+              <span className="text-gray-500 mx-2">{transaction.category}</span>
             </div>
-          ))}
-        </div>
-      </div>
-      <div className="px-4 py-3">
-        <button className="text-blue-500 hover:text-blue-600">View all 1,345 transactions</button>
+            <div className="flex items-center">
+              <span className={`${transaction.amount < 0 ? 'text-red-500' : 'text-green-500'} font-bold`}>
+                ${transaction.amount.toFixed(2)}
+              </span>
+              <BsThreeDotsVertical className="text-gray-500 ml-2" />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

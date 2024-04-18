@@ -86,7 +86,7 @@ const NetWorthCard: React.FC = () => {
         </div>
       </div>
       <div>
-        <Line data={data} options={options} />
+        <Line data={data} options={options}/>
       </div>
     </div>
   );

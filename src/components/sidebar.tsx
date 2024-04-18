@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-
 import { IoHomeSharp, IoBarChart, IoGiftOutline } from "react-icons/io5";
 import { BsStack } from "react-icons/bs";
 import { FaCreditCard, FaChartPie, FaRegMap, FaThumbsUp } from "react-icons/fa";
@@ -41,10 +40,27 @@ const Sidebar: React.FC = () => {
   }, []);
 
 
-  const onSuccess = (publicToken: string, metadata: any) => {
-    // Send the publicToken to your app server
-    console.log('publicToken:', publicToken);
+  const onSuccess = async (publicToken: string, metadata: any) => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/set_access_token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ public_token: publicToken })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to exchange public token');
+      }
+  
+      const data = await response.json();
+      console.log('Access token set successfully:', data);
+    } catch (error) {
+      console.error('Error during public token exchange:', error);
+    }
   };
+  
 
   const onExit = (error: any, metadata: any) => {
     // Handle the exit event
@@ -64,15 +80,7 @@ const Sidebar: React.FC = () => {
         />
       </div>
 
-      <div className="px-4 py-4 border-t border-blue-700">
-        <div className="text-sm">Free trial</div>
-        <div className="w-full bg-blue-300 rounded-full h-2 my-2">
-          <div className="bg-green-500 h-2 rounded-full" style={{ width: '70%' }}></div>
-        </div>
-        <div className="text-xs">7 days left</div>
-      </div>
-
-      <div className="flex flex-col">
+      <div className="flex flex-col border-t border-blue-700">
         <Link to="/" className="flex items-center py-3.5 pl-4 hover:bg-blue-700 rounded-xl">
           <IoHomeSharp className="mr-4" /> Dashboard
         </Link>    
@@ -113,9 +121,6 @@ const Sidebar: React.FC = () => {
         Connect a Bank Account
       </PlaidLinkButton>
     )}
-
-
-
       </div>
 
       <div className="flex flex-col mt-auto">
