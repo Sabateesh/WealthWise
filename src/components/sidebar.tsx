@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
+
 import { IoHomeSharp, IoBarChart, IoGiftOutline } from "react-icons/io5";
 import { BsStack } from "react-icons/bs";
 import { FaCreditCard, FaChartPie, FaRegMap, FaThumbsUp } from "react-icons/fa";
@@ -11,9 +12,46 @@ import HelpSupportModal from './HelpSupportModel';
 import { Button} from '@chakra-ui/react'
 import { Link } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
+import PlaidLinkButton from './PlaidLinkButton';
+import { IoIosAdd } from "react-icons/io";
+
 const Sidebar: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [linkToken, setLinkToken] = useState<string | null>(null);
+  useEffect(() => {
+    const getLinkToken = async () => {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/create_link_token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setLinkToken(data.link_token);
+        } catch (error) {
+            console.error('There was an issue fetching the link token:', error);
+        }
+    };
 
+    getLinkToken();
+  }, []);
+
+
+  const onSuccess = (publicToken: string, metadata: any) => {
+    // Send the publicToken to your app server
+    console.log('publicToken:', publicToken);
+  };
+
+  const onExit = (error: any, metadata: any) => {
+    // Handle the exit event
+    if (error) {
+      console.error('Link flow exited with error:', error);
+    }
+  };
   return (
     <div className="flex flex-col h-screen bg-[#1348A5] text-white">
         <div className="flex items-center justify-between p-1">
@@ -66,6 +104,18 @@ const Sidebar: React.FC = () => {
         <Link to="/advice" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
           <FaThumbsUp className="mr-4" /> Advice
         </Link>
+      {linkToken && (
+      <PlaidLinkButton
+        token={linkToken}
+        onSuccess={onSuccess}
+        onExit={onExit}
+      >
+        Connect a Bank Account
+      </PlaidLinkButton>
+    )}
+
+
+
       </div>
 
       <div className="flex flex-col mt-auto">
