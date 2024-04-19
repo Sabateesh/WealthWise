@@ -37,7 +37,6 @@ const Dashboard: React.FC = () => {
             <HoldingsCard/>
           </div>
           <div className="mt-6 pr-3">
-            <CashCard/>
           </div>
           <div className="mt-6 pr-3">
             <IdentityCard/>

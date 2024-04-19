@@ -68,7 +68,7 @@ PLAID_SECRET = os.getenv('PLAID_SECRET')
 # password: pass_good)
 # Use `development` to test with live users and credentials and `production`
 # to go live
-PLAID_ENV = os.getenv('PLAID_ENV', 'sandbox')
+PLAID_ENV = os.getenv('PLAID_ENV', 'development')
 # PLAID_PRODUCTS is a comma-separated list of products to use when initializing
 # Link. Note that this list must contain 'assets' in order for the app to be
 # able to create and retrieve asset reports.
@@ -76,7 +76,7 @@ PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
 
 # PLAID_COUNTRY_CODES is a comma-separated list of countries for which users
 # will be able to select institutions from.
-PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
+PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US,CA').split(',')
 
 
 def empty_to_none(field):
@@ -85,7 +85,7 @@ def empty_to_none(field):
         return None
     return value
 
-host = plaid.Environment.Sandbox
+host = plaid.Environment.Development
 
 if PLAID_ENV == 'sandbox':
     host = plaid.Environment.Sandbox

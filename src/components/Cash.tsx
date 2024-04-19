@@ -49,7 +49,7 @@ const CashCard: React.FC = () => {
             <p className="text-sm text-gray-600">{`****${account.mask}`}</p>
           </div>
           <div>
-            <p className="font-bold">{`$${account.balances.available.toLocaleString('en-US', { maximumFractionDigits: 2 })}`}</p>
+            <p className="font-bold">{`$${account.balances.current.toLocaleString('en-US', { maximumFractionDigits: 2 })}`}</p>
             <p className="text-sm text-gray-600">Available</p>
           </div>
         </div>
