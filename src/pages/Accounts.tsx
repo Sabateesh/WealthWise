@@ -11,7 +11,8 @@ const Accounts: React.FC = () => {
           <AiOutlineMenu className="text-xl text-[#082864] mr-2" />
         <h1 className="text-2xl text-[#082864] font-medium">Accounts</h1>
         </div>
-        <div className="mt-6 pr-3">
+        <div className="mt-6 p-3">
+          <CashCard/>
         </div>
     </div>
   );

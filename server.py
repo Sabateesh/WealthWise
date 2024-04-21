@@ -8,6 +8,7 @@ import time
 from datetime import date, timedelta
 from flask_cors import CORS
 
+
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 import plaid
@@ -76,7 +77,7 @@ PLAID_PRODUCTS = os.getenv('PLAID_PRODUCTS', 'transactions').split(',')
 
 # PLAID_COUNTRY_CODES is a comma-separated list of countries for which users
 # will be able to select institutions from.
-PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US,CA').split(',')
+PLAID_COUNTRY_CODES = os.getenv('PLAID_COUNTRY_CODES', 'US').split(',')
 
 
 def empty_to_none(field):
@@ -331,7 +332,7 @@ def get_transactions():
             has_more = response['has_more']
             cursor = response['next_cursor']
 
-        latest_transactions = sorted(added, key=lambda t: t['date'])[-8:]
+        latest_transactions = sorted(added, key=lambda t: t['date'])[-20:]
         return jsonify({'latest_transactions': latest_transactions})
 
     except plaid.ApiException as e:
@@ -652,6 +653,29 @@ def item():
     except plaid.ApiException as e:
         error_response = format_error(e)
         return jsonify(error_response)
+    
+@app.route('/api/transactions/recurring/get', methods=['GET'])
+def get_recurring_transactions():
+    access_token = request.headers.get('Authorization')
+    account_ids = request.args.getlist('account_ids')
+
+    if not access_token:
+        return jsonify({'error': 'Access token is required'}), 400
+
+    try:
+        request_obj = plaid.TransactionsRecurringGetRequest(
+            access_token=access_token,
+            account_ids=account_ids
+        )
+        response = client.transactions_recurring_get(request_obj)
+        return jsonify(response.to_dict()), 200
+    except plaid.ApiException as e:
+        return jsonify({
+            'error': str(e),
+            'status': e.status
+        }), e.status
+    
+
 
 def pretty_print_response(response):
   print(json.dumps(response, indent=2, sort_keys=True, default=str))

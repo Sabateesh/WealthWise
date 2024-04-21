@@ -12,6 +12,7 @@ import Goals from '../pages/Goals';
 import Investments from '../pages/Investments';
 import Advice from '../pages/Advice';
 import Budget from '../pages/Budget';
+
 const App: React.FC = () => {
   return (
     <BrowserRouter>

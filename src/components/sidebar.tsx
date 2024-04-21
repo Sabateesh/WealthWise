@@ -129,7 +129,7 @@ const Sidebar: React.FC = () => {
             <IoGiftOutline className="mr-4" /> Get 1 Month Free
           </a>
         <ChakraProvider>
-          <Button onClick={onOpen} className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded">
+          <Button onClick={onOpen}  colorScheme='white' variant='ghost' width='180px' className=" hover:bg-blue-700">
             <IoChatbubbleOutline className='mr-4'/> Help & Support
             <HelpSupportModal isOpen={isOpen} onClose={onClose} />
           </Button>

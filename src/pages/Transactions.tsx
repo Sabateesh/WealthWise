@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 
-// Define the interface for a transaction
 interface Transaction {
   date: string;
   name: string;
@@ -11,8 +10,10 @@ interface Transaction {
 }
 
 const Transactions: React.FC = () => {
-  // Use the interface to type the state
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const transactionsPerPage = 10;
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -27,7 +28,11 @@ const Transactions: React.FC = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        setTransactions(data.latest_transactions);
+        // Sort transactions by date from newest to oldest
+        const sortedTransactions = data.latest_transactions.sort((a: Transaction, b: Transaction) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+        setTransactions(sortedTransactions);
       } catch (error) {
         console.error('Error fetching transactions:', error);
       }
@@ -35,6 +40,25 @@ const Transactions: React.FC = () => {
 
     fetchTransactions();
   }, []);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredTransactions = transactions.filter(transaction =>
+    transaction.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    transaction.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const pageCount = Math.ceil(filteredTransactions.length / transactionsPerPage);
+  const changePage = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const indexOfLastTransaction = currentPage * transactionsPerPage;
+  const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
+  const currentTransactions = filteredTransactions.slice(indexOfFirstTransaction, indexOfLastTransaction);
+
   return (
     <div className="pr-0 pl-0 mr-0 ml-0 w-full">
       <div className="flex items-center mb-6 bg-[#FFF] p-4 rounded-lg">
@@ -45,18 +69,18 @@ const Transactions: React.FC = () => {
         <div className="flex-grow pl-10">
           <div className="mb-4 flex justify-between">
             <div>
-              <button className="text-gray-500 mr-4">Edit multiple</button>
-              <select className="border border-gray-300 rounded px-2 py-1">
-                <option>All transactions</option>
-                {/* Populate other options here */}
-              </select>
-            </div>
-            <div>
+              <input
+                type="text"
+                placeholder="Search by name or category"
+                className="border border-gray-300 rounded px-2 py-1 mr-4"
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
               <button className="bg-blue-500 text-white px-4 py-2 rounded">Add transaction</button>
             </div>
           </div>
 
-          {transactions.map((transaction, index) => (
+          {currentTransactions.map((transaction, index) => (
             <div key={index} className="bg-white shadow rounded mb-2">
               <div className="p-4 border-b border-gray-200">
                 <div className="flex justify-between">
@@ -66,12 +90,20 @@ const Transactions: React.FC = () => {
                     <div className="text-gray-500">{transaction.category}</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-lg text-gray-800">${transaction.amount}</div>
+                    <div className="text-lg text-gray-800">${transaction.amount.toFixed(2)}</div>
                   </div>
                 </div>
               </div>
             </div>
           ))}
+
+          <div className="flex justify-center mt-4 mb-4">
+            {Array.from({ length: pageCount }, (_, i) => i + 1).map(number => (
+              <button key={number} onClick={() => changePage(number)} className={`mx-2 ${currentPage === number ? 'text-blue-700 font-bold' : 'text-gray-500'}`}>
+                {number}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="w-1/4 ml-4">
@@ -79,14 +111,14 @@ const Transactions: React.FC = () => {
             <h2 className="text-lg font-bold mb-4">Filter</h2>
             <div className="mb-4">
               <label className="block text-gray-700 mb-1">Search</label>
-              <input type="text" className="w-full border border-gray-300 rounded px-2 py-1" />
+              <input type="text" className="w-full border border-gray-300 rounded px-2 py-1" value={searchQuery} onChange={handleSearchChange} />
             </div>
           </div>
           
           <div className="bg-white p-4 shadow rounded">
             <h2 className="text-lg font-bold mb-4">Summary</h2>
-            <div className="text-gray-700 mb-2">Total transactions: <span className="font-bold">{transactions.length}</span></div>
-            <div className="text-gray-700">Largest transaction: <span className="font-bold">$6,035.25</span></div> {/* Update this value based on actual data */}
+            <div className="text-gray-700 mb-2">Total transactions: <span className="font-bold">{filteredTransactions.length}</span></div>
+            <div className="text-gray-700">Largest transaction: <span className="font-bold">$6,035.25</span> {/* Update this value based on actual data */}</div>
           </div>
         </div>
       </div>

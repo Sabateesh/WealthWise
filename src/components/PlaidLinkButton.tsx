@@ -19,8 +19,8 @@ const PlaidLinkButton: React.FC<PlaidLinkButtonProps> = ({ token, onSuccess, onE
   });
 
   return (
-    <button onClick={() => open()} disabled={!ready}>
-     <IoIosAdd className='mr-4'/>Connect a bank account
+    <button onClick={() => open()} disabled={!ready} className='flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl' >
+     <IoIosAdd className='mr-4'/>Connect
     </button>
   );
 };
