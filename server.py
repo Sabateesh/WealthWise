@@ -332,7 +332,7 @@ def get_transactions():
             has_more = response['has_more']
             cursor = response['next_cursor']
 
-        latest_transactions = sorted(added, key=lambda t: t['date'])[-20:]
+        latest_transactions = sorted(added, key=lambda t: t['date'])[-200:]
         return jsonify({'latest_transactions': latest_transactions})
 
     except plaid.ApiException as e:

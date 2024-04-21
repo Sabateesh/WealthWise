@@ -23,7 +23,7 @@ const App: React.FC = () => {
         </aside>
 
         {/* Main content area */}
-        <main className="flex-1 ml-60 bg[#F0F4F8] overflow-auto">
+        <main className="flex-1 ml-60 bg-[#F0F4F8] overflow-auto">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/accounts" element={<Accounts />} />

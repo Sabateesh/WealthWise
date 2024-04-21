@@ -1,6 +1,7 @@
 // src/pages/Budget.tsx
 import React from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
+import SpendingCard from '../components/SpendingCard';
 
 
 const Budget: React.FC = () => {
@@ -10,6 +11,9 @@ const Budget: React.FC = () => {
           <AiOutlineMenu className="text-xl text-[#082864] mr-2" />
         <h1 className="text-2xl text-[#082864] font-medium">Budget</h1>
       </div>
+      <div className="mt-6 p-3">
+          <SpendingCard/>
+        </div>
     </div>
   );
 };

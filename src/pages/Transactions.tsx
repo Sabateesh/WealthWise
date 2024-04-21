@@ -5,15 +5,18 @@ import { AiOutlineMenu } from 'react-icons/ai';
 interface Transaction {
   date: string;
   name: string;
-  category: string;
+  category: string[];
   amount: number;
+}
+interface GroupedTransactions {
+  [key: string]: Transaction[];
 }
 
 const Transactions: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const transactionsPerPage = 10;
+  const transactionsPerPage = 8;
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -28,7 +31,6 @@ const Transactions: React.FC = () => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        // Sort transactions by date from newest to oldest
         const sortedTransactions = data.latest_transactions.sort((a: Transaction, b: Transaction) => {
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
@@ -45,19 +47,36 @@ const Transactions: React.FC = () => {
     setSearchQuery(e.target.value);
   };
 
+  const formatCategories = (categories: string[]): string => {
+    return categories.join(', '); // Joins all categories with a comma
+  };
+
+  const groupByDate = (transactions: Transaction[]): GroupedTransactions => {
+    return transactions.reduce((acc, current) => {
+      const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+      const date = new Intl.DateTimeFormat('en-US', dateOptions).format(new Date(current.date));
+      acc[date] = acc[date] || [];
+      acc[date].push(current);
+      return acc;
+    }, {} as GroupedTransactions);
+  };
+
+
   const filteredTransactions = transactions.filter(transaction =>
     transaction.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    transaction.category.toLowerCase().includes(searchQuery.toLowerCase())
+    transaction.category.some(cat => cat.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-  const pageCount = Math.ceil(filteredTransactions.length / transactionsPerPage);
+  const groupedTransactionsArray = Object.entries(groupByDate(filteredTransactions));
+
+  const pageCount = Math.ceil(groupedTransactionsArray.length / transactionsPerPage);
   const changePage = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
-  const indexOfLastTransaction = currentPage * transactionsPerPage;
-  const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
-  const currentTransactions = filteredTransactions.slice(indexOfFirstTransaction, indexOfLastTransaction);
+  const indexOfLastGroup = currentPage * transactionsPerPage;
+  const indexOfFirstGroup = indexOfLastGroup - transactionsPerPage;
+  const currentGroupedTransactions = groupedTransactionsArray.slice(indexOfFirstGroup, indexOfLastGroup);
 
   return (
     <div className="pr-0 pl-0 mr-0 ml-0 w-full">
@@ -66,37 +85,51 @@ const Transactions: React.FC = () => {
         <h1 className="text-2xl text-[#082864] font-medium">Transactions</h1>
       </div>
       <div className="flex">
-        <div className="flex-grow pl-10">
-          <div className="mb-4 flex justify-between">
-            <div>
-              <input
-                type="text"
-                placeholder="Search by name or category"
-                className="border border-gray-300 rounded px-2 py-1 mr-4"
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
-              <button className="bg-blue-500 text-white px-4 py-2 rounded">Add transaction</button>
-            </div>
+        <div className="flex-grow pl-5">
+          
+        <div className=" bg-white p-4 rounded-t-lg shadow flex justify-between items-center">
+        <div className="relative">
+          <select className="border border-gray-300 rounded px-4 py-2 appearance-none">
+            <option>All transactions</option>
+            {/* More filter options */}
+          </select>
+          {/* Dropdown arrow icon */}
+        </div>
+        <div className="flex">
+          <button className="border border-gray-300 rounded px-4 py-2 mr-2">
+            Edit multiple
+          </button>
+          <div className="relative">
+            <select 
+              className="border border-gray-300 rounded px-4 py-2 appearance-none"
+            >
+              <option value="dateDesc">Sort</option>
+              <option value="dateAsc">Date Ascending</option>
+              <option value="amountDesc">Amount Descending</option>
+              {/* More sort options */}
+            </select>
+            {/* Dropdown arrow icon */}
           </div>
+        </div>
+      </div>
 
-          {currentTransactions.map((transaction, index) => (
-            <div key={index} className="bg-white shadow rounded mb-2">
-              <div className="p-4 border-b border-gray-200">
-                <div className="flex justify-between">
-                  <div>
-                    <div className="text-gray-600">{transaction.date}</div>
-                    <div className="text-lg">{transaction.name}</div>
-                    <div className="text-gray-500">{transaction.category}</div>
+          {currentGroupedTransactions.map(([date, dailyTransactions]) => (
+            <div key={date} className="bg-white shadow rounded">
+              <div className="border-b border-gray-200">
+                <div className="text-[#7886A4] font-medium bg-[#F0F4F8] pl-3 pb-1.5 pt-1.5">{date} </div>
+                {dailyTransactions.map((transaction, index) => (
+                  <div key={index} className="flex justify-between mb-2 py-2 border-b">
+                    <div className="text-lg ml-3 ">{transaction.name}</div>
+                    <div className="text-right mr-5">
+                      <div className={`text-lg ${transaction.amount < 0 ? 'text-[#499D8B]' : 'text-gray-800'}`}>
+                        ${Math.abs(transaction.amount).toFixed(2)}
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-lg text-gray-800">${transaction.amount.toFixed(2)}</div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           ))}
-
           <div className="flex justify-center mt-4 mb-4">
             {Array.from({ length: pageCount }, (_, i) => i + 1).map(number => (
               <button key={number} onClick={() => changePage(number)} className={`mx-2 ${currentPage === number ? 'text-blue-700 font-bold' : 'text-gray-500'}`}>
