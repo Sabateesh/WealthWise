@@ -48,7 +48,7 @@ const Transactions: React.FC = () => {
   };
 
   const formatCategories = (categories: string[]): string => {
-    return categories.join(', '); // Joins all categories with a comma
+    return categories.join(', ');
   };
 
   const groupByDate = (transactions: Transaction[]): GroupedTransactions => {
@@ -77,6 +77,17 @@ const Transactions: React.FC = () => {
   const indexOfLastGroup = currentPage * transactionsPerPage;
   const indexOfFirstGroup = indexOfLastGroup - transactionsPerPage;
   const currentGroupedTransactions = groupedTransactionsArray.slice(indexOfFirstGroup, indexOfLastGroup);
+
+  const totalIncome = filteredTransactions.reduce((sum, transaction) => {
+    if (transaction.category.includes("Payroll")) {
+      return sum + Math.abs(transaction.amount);
+    }
+    return sum;
+  }, 0);
+
+  const largestTransaction = Math.max(...transactions.map(t => t.amount));
+  const largestExpense = Math.min(...transactions.filter(t => t.amount < 0).map(t => t.amount));
+  const averageTransaction = transactions.reduce((acc, t) => acc + t.amount, 0) / transactions.length;
 
   return (
     <div className="pr-0 pl-0 mr-0 ml-0 w-full">
@@ -140,18 +151,24 @@ const Transactions: React.FC = () => {
         </div>
 
         <div className="w-1/4 ml-4">
-          <div className="bg-white p-4 shadow rounded mb-4">
-            <h2 className="text-lg font-bold mb-4">Filter</h2>
+          <div className="bg-white mr-4 p-4 shadow rounded mb-4">
+            <h2 className="text-lg font-bold text-[#082864]">Filter</h2>
+            <h2 className="border-b mb-4"></h2>
             <div className="mb-4">
               <label className="block text-gray-700 mb-1">Search</label>
               <input type="text" className="w-full border border-gray-300 rounded px-2 py-1" value={searchQuery} onChange={handleSearchChange} />
             </div>
           </div>
           
-          <div className="bg-white p-4 shadow rounded">
-            <h2 className="text-lg font-bold mb-4">Summary</h2>
-            <div className="text-gray-700 mb-2">Total transactions: <span className="font-bold">{filteredTransactions.length}</span></div>
-            <div className="text-gray-700">Largest transaction: <span className="font-bold">$6,035.25</span> {/* Update this value based on actual data */}</div>
+          <div className="bg-white mr-4 shadow rounded-lg">
+            <h2 className="text-lg font-semibold ml-4 pt-2 pb-2 text-[#082864]">Summary</h2>
+            <h2 className="border-b mb-4"></h2>
+
+            <div className="mb-2 ml-4 text-[#7886A4]">Total transactions: <span className="font-bold text-[#082864]">{filteredTransactions.length}</span></div>
+            <div className="ml-4 mb-2 text-[#7886A4]">Largest transaction: <span className="font-bold text-[#082864]">${largestTransaction}</span></div>
+            <div className="ml-4 mb-2 text-[#7886A4]">Largest expense: <span className="font-bold text-[#082864]">${Math.abs(largestExpense)}</span></div>
+            <div className="ml-4 mb-2 text-[#7886A4]">Average transaction: <span className="font-bold text-[#082864]">${averageTransaction.toFixed(2)}</span></div>
+            <div className="ml-4 mb-2 text-[#7886A4]">Total income: <span className="font-bold text-[#499D8B]">${totalIncome}</span></div>
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ import json
 import time
 from datetime import date, timedelta
 from flask_cors import CORS
+import datetime
 
 
 from dotenv import load_dotenv
@@ -54,6 +55,10 @@ from plaid.model.statements_list_request import StatementsListRequest
 from plaid.model.link_token_create_request_statements import LinkTokenCreateRequestStatements
 from plaid.model.statements_download_request import StatementsDownloadRequest
 from plaid.api import plaid_api
+from plaid.model.liabilities_get_request import LiabilitiesGetRequest
+from plaid.model.transactions_get_request import TransactionsGetRequest
+
+
 
 load_dotenv()
 
@@ -287,8 +292,6 @@ def get_access_token():
 
 # Retrieve ACH or ETF account numbers for an Item
 # https://plaid.com/docs/#auth
-
-
 @app.route('/api/auth', methods=['GET'])
 def get_auth():
     try:
@@ -375,6 +378,8 @@ def get_balance():
     except plaid.ApiException as e:
         error_response = format_error(e)
         return jsonify(error_response)
+
+
 
 
 # Retrieve an Item's accounts

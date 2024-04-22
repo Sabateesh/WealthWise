@@ -17,9 +17,12 @@ import { BsLightningChargeFill } from "react-icons/bs";
 
 
 
+
 const Sidebar: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [linkToken, setLinkToken] = useState<string | null>(null);
+  const [activeItem, setActiveItem] = useState<string>('Dashboard'); // Define the state with a default value
+
   useEffect(() => {
     const getLinkToken = async () => {
         try {
@@ -42,6 +45,18 @@ const Sidebar: React.FC = () => {
     getLinkToken();
   }, []);
 
+  const handleMenuItemClick = (itemName: string) => {
+    setActiveItem(itemName);
+  };
+
+  const isActive = (itemName: string) => {
+    if (itemName === activeItem) {
+      return 'bg-[#0F3D8C] text-[#FFF]'; 
+    } else {
+      return 'hover:bg-[#2B5AAE] text-[#BAC8E5]';
+    }
+  };
+  
 
   const onSuccess = async (publicToken: string, metadata: any) => {
     try {
@@ -83,36 +98,40 @@ const Sidebar: React.FC = () => {
         />
       </div>
 
-      <div className="flex flex-col border-t border-blue-700">
-        <Link to="/" className="flex items-center py-3.5 pl-4 hover:bg-blue-700 rounded-xl">
+      <div className="flex flex-col border-t p-2 border-blue-700">
+      <Link to="/" className={`flex items-center py-3.5 pl-4 ${isActive('Dashboard')}`} onClick={() => handleMenuItemClick('Dashboard')}>
           <IoHomeSharp className="mr-4" /> Dashboard
         </Link>    
-        <Link to="/accounts" className="flex items-center pl-4 py-3.5 hover:bg-blue-700 rounded-xl">
+        <Link to="/accounts" className={`flex items-center pl-4 py-3.5  rounded ${isActive('accounts')}`} onClick={() => handleMenuItemClick('accounts')}>
           <BsStack className="mr-4" /> Accounts
         </Link>
-        <Link to="/transactions" className="flex items-center pl-4 py-3.5 hover:bg-blue-700 rounded-xl">
+        <Link to="/transactions" className={`flex items-center pl-4 py-3.5 rounded ${isActive('transactions')}`} onClick={() => handleMenuItemClick('transactions')}>
           <FaCreditCard className="mr-4" /> Transactions
         </Link>
-
-        <Link to="/cashflow" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+        <Link to="/cashflow" className={`flex items-center pl-4 py-3.5 rounded ${isActive('cashflow')}`} onClick={() => handleMenuItemClick('cashflow')}>
           <IoBarChart className="mr-4" /> Cashflow
         </Link>
-        <Link to="/reports" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+        <Link to="/reports" className={`flex items-center pl-4 py-3.5 rounded ${isActive('reports')}`} onClick={() => handleMenuItemClick('reports')}>
           <FaChartPie className="mr-4" /> Reports
         </Link>
-        <Link to="/budget" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+
+        <Link to="/budget" className={`flex items-center pl-4 py-3.5 rounded ${isActive('budget')}`} onClick={() => handleMenuItemClick('budget')}>
           <FaRegMap className="mr-4" /> Budget
         </Link>
-        <Link to="/recurring" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+
+        <Link to="/recurring" className={`flex items-center pl-4 py-3.5 rounded ${isActive('recurring')}`} onClick={() => handleMenuItemClick('recurring')}>
           <CiCalendar className="mr-4" /> Recurring
         </Link>
-        <Link to="/goals" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+
+        <Link to="/goals" className={`flex items-center pl-4 py-3.5 rounded ${isActive('goals')}`} onClick={() => handleMenuItemClick('goals')}>
           <FaBullseye className="mr-4" /> Goals
         </Link>
-        <Link to="/investments" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+
+        <Link to="/investments" className={`flex items-center pl-4 py-3.5 rounded ${isActive('investments')}`} onClick={() => handleMenuItemClick('investments')}>
           <FaArrowTrendUp className="mr-4" /> Investments
         </Link>
-        <Link to="/advice" className="flex items-center py-4 pl-4 hover:bg-blue-700 rounded-xl">
+
+        <Link to="/advice" className={`flex items-center pl-4 py-3.5  rounded ${isActive('advice')}`} onClick={() => handleMenuItemClick('advice')}>
           <FaThumbsUp className="mr-4" /> Advice
         </Link>
       {linkToken && (
