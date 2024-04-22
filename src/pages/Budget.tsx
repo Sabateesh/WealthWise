@@ -13,7 +13,7 @@ const Budget: React.FC = () => {
       </div>
       <div className="mt-6 p-3">
           <SpendingCard/>
-        </div>
+      </div>
     </div>
   );
 };

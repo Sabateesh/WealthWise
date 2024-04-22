@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { IoHomeSharp, IoBarChart, IoGiftOutline } from "react-icons/io5";
 import { BsStack } from "react-icons/bs";
-import { FaCreditCard, FaChartPie, FaRegMap, FaThumbsUp } from "react-icons/fa";
+import { FaCreditCard, FaChartPie, FaRegMap, FaThumbsUp, FaSignOutAlt } from "react-icons/fa";
 import { FaBullseye, FaArrowTrendUp } from "react-icons/fa6";
 import { CiCalendar } from "react-icons/ci";
 import Image from 'next/image';
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { useDisclosure } from '@chakra-ui/react';
 import HelpSupportModal from './HelpSupportModel';
-import { Button} from '@chakra-ui/react'
 import { Link } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Menu, MenuButton, MenuList, MenuItem, Button} from '@chakra-ui/react';
 import PlaidLinkButton from './PlaidLinkButton';
-import { IoIosAdd } from "react-icons/io";
+import { IoMdSettings } from "react-icons/io";
+import { ChevronDownIcon, MoonIcon,ExternalLinkIcon,RepeatIcon,EditIcon } from '@chakra-ui/icons';
+import { BsLightningChargeFill } from "react-icons/bs";
+
+
 
 const Sidebar: React.FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -139,10 +142,31 @@ const Sidebar: React.FC = () => {
 
       <div className="flex items-center px-4 py-2 mt-5 border-t border-blue-700">
         <div className="w-8 h-8 bg-red-500 rounded-full mr-2"></div>
-          Sabateesh
+      <ChakraProvider>
+        <Menu>
+          <MenuButton as={Button} rightIcon={<ChevronDownIcon />} variant='ghost' color={'#FFF'}>
+            Sabateesh
+          </MenuButton>
+            <MenuList>
+              <MenuItem icon={<MoonIcon />} color={'black'}>
+                Dark Mode
+              </MenuItem>
+              <MenuItem icon={<BsLightningChargeFill size={18}/>} color={'black'}>
+                What's new
+              </MenuItem>
+              <MenuItem icon={<IoMdSettings size={18}  />} color={'black'}>
+                Settings
+              </MenuItem>
+              <MenuItem icon={<FaSignOutAlt size={18} />} color={'#ED5585'}>
+                Sign out
+              </MenuItem>
+            </MenuList>
+        </Menu>
+      </ChakraProvider>
         <div className="w-4 h-4 bg-gray-400 rounded-full ml-auto"></div>
       </div>
     </div>
+
   );
 };
 
