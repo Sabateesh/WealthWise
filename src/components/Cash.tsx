@@ -74,7 +74,7 @@ const CashCard: React.FC = () => {
       {accountBalances.map((account) => (
         <div key={account.account_id} className="flex justify-between items-center mb-2 py-5 rounded border-b bg-[#FFF]">
           <div className="flex">
-          {logoUrl && <img src={logoUrl} alt="Institution Logo" className="h-8 w-10 mt-3 rounded-full" />}
+          {logoUrl && <img src={logoUrl} alt="Institution Logo" className="h-8 w-8 mt-3 rounded-full" />}
           <div>
             <h3 className="font-semibold text-lg ml-4 text-[#082864]">{account.name}</h3>
             <p className="text-sm mb-4 ml-4 text-gray-600">{account.official_name}</p>
@@ -90,4 +90,3 @@ const CashCard: React.FC = () => {
 };
 
 export default CashCard;
-
