@@ -38,9 +38,6 @@ const Dashboard: React.FC = () => {
           </div>
           <div className="mt-6 pr-3">
           </div>
-          <div className="mt-6 pr-3">
-            <IdentityCard/>
-          </div>
         </div>
       </div>
     </div>

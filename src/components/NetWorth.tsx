@@ -70,7 +70,7 @@ const options = {
 
 const NetWorthCard: React.FC = () => {
   return (
-    <div className="bg-white shadow rounded-lg p-5 max-w-5xl">
+    <div className="bg-white shadow rounded-lg p-5 w-full">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-bold text-black">NET WORTH</h2>
         <div className="relative">

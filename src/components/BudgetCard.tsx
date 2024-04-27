@@ -97,7 +97,7 @@ const BudgetCard: React.FC = () => {
 
   return (
     <div className="p-1">
-      <div className="bg-white shadow rounded-lg pt-5 pb-5 max-w-4xl">
+      <div className="bg-white shadow rounded-lg pt-5 pb-5 w-full">
         <h2 className="text-lg font-semi-bold border-b pl-4  pb-2 text-black">Budget - April</h2>
         <ProgressBar title="Income" value={income} budget={incomeBudget} color="bg-[#18D2A5]" />
         <h2 className="text-lg border-b pl-4 font-medium pb-4 text-black">${income} earned</h2>

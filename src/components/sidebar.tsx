@@ -98,40 +98,40 @@ const Sidebar: React.FC = () => {
         />
       </div>
 
-      <div className="flex flex-col border-t p-2 border-blue-700">
-      <Link to="/" className={`flex items-center py-3.5 pl-4 ${isActive('Dashboard')}`} onClick={() => handleMenuItemClick('Dashboard')}>
+      <div className="flex flex-col border-t p-2 pb-3 border-blue-700">
+      <Link to="/" className={`flex items-center py-3.5 pl-4 mb-2 rounded ${isActive('Dashboard')}`} onClick={() => handleMenuItemClick('Dashboard')}>
           <IoHomeSharp className="mr-4" /> Dashboard
         </Link>    
-        <Link to="/accounts" className={`flex items-center pl-4 py-3.5  rounded ${isActive('accounts')}`} onClick={() => handleMenuItemClick('accounts')}>
+        <Link to="/accounts" className={`flex items-center pl-4 py-3.5 mb-1 rounded ${isActive('accounts')}`} onClick={() => handleMenuItemClick('accounts')}>
           <BsStack className="mr-4" /> Accounts
         </Link>
-        <Link to="/transactions" className={`flex items-center pl-4 py-3.5 rounded ${isActive('transactions')}`} onClick={() => handleMenuItemClick('transactions')}>
+        <Link to="/transactions" className={`flex items-center pl-4 py-3.5 mb-1 rounded ${isActive('transactions')}`} onClick={() => handleMenuItemClick('transactions')}>
           <FaCreditCard className="mr-4" /> Transactions
         </Link>
-        <Link to="/cashflow" className={`flex items-center pl-4 py-3.5 rounded ${isActive('cashflow')}`} onClick={() => handleMenuItemClick('cashflow')}>
+        <Link to="/cashflow" className={`flex items-center pl-4 py-3.5 mb-1 rounded ${isActive('cashflow')}`} onClick={() => handleMenuItemClick('cashflow')}>
           <IoBarChart className="mr-4" /> Cashflow
         </Link>
-        <Link to="/reports" className={`flex items-center pl-4 py-3.5 rounded ${isActive('reports')}`} onClick={() => handleMenuItemClick('reports')}>
+        <Link to="/reports" className={`flex items-center pl-4 py-3.5 mb-1 rounded ${isActive('reports')}`} onClick={() => handleMenuItemClick('reports')}>
           <FaChartPie className="mr-4" /> Reports
         </Link>
 
-        <Link to="/budget" className={`flex items-center pl-4 py-3.5 rounded ${isActive('budget')}`} onClick={() => handleMenuItemClick('budget')}>
+        <Link to="/budget" className={`flex items-center pl-4 py-3.5 mb-1 rounded ${isActive('budget')}`} onClick={() => handleMenuItemClick('budget')}>
           <FaRegMap className="mr-4" /> Budget
         </Link>
 
-        <Link to="/recurring" className={`flex items-center pl-4 py-3.5 rounded ${isActive('recurring')}`} onClick={() => handleMenuItemClick('recurring')}>
+        <Link to="/recurring" className={`flex items-center pl-4 py-3.5 mb-1 rounded ${isActive('recurring')}`} onClick={() => handleMenuItemClick('recurring')}>
           <CiCalendar className="mr-4" /> Recurring
         </Link>
 
-        <Link to="/goals" className={`flex items-center pl-4 py-3.5 rounded ${isActive('goals')}`} onClick={() => handleMenuItemClick('goals')}>
+        <Link to="/goals" className={`flex items-center pl-4 py-3.5 mb-1 rounded ${isActive('goals')}`} onClick={() => handleMenuItemClick('goals')}>
           <FaBullseye className="mr-4" /> Goals
         </Link>
 
-        <Link to="/investments" className={`flex items-center pl-4 py-3.5 rounded ${isActive('investments')}`} onClick={() => handleMenuItemClick('investments')}>
+        <Link to="/investments" className={`flex items-center pl-4 py-3.5 mb-1 rounded ${isActive('investments')}`} onClick={() => handleMenuItemClick('investments')}>
           <FaArrowTrendUp className="mr-4" /> Investments
         </Link>
 
-        <Link to="/advice" className={`flex items-center pl-4 py-3.5  rounded ${isActive('advice')}`} onClick={() => handleMenuItemClick('advice')}>
+        <Link to="/advice" className={`flex items-center pl-4 py-3.5 mb-1 rounded ${isActive('advice')}`} onClick={() => handleMenuItemClick('advice')}>
           <FaThumbsUp className="mr-4" /> Advice
         </Link>
       {linkToken && (
@@ -151,9 +151,9 @@ const Sidebar: React.FC = () => {
             <IoGiftOutline className="mr-4" /> Get 1 Month Free
           </a>
         <ChakraProvider>
-          <Button onClick={onOpen}  colorScheme='white' variant='ghost' width='180px' className=" hover:bg-blue-700">
+          <Button onClick={onOpen} justifyContent="start" colorScheme='white' variant='ghost' width='100%' className="flex items-center py-6 justify-start  hover:bg-blue-700">
             <IoChatbubbleOutline className='mr-4'/> Help & Support
-            <HelpSupportModal isOpen={isOpen} onClose={onClose} />
+            <HelpSupportModal isOpen={isOpen} onClose={onClose}/>
           </Button>
         </ChakraProvider>
           </div>

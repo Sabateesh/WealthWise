@@ -37,16 +37,33 @@ const TransactionsCard: React.FC = () => {
           throw new Error(data.error);
         }
 
-        const sortedTransactions = data.latest_transactions
-          .map((transaction: Transaction) => ({
-            ...transaction,
-            name: transaction.name.replace(/^(POS Purchase|OPOS|Purchase|POS)\s*/, ''),
-            category: [transaction.category[0]]  // Use only the first category
-          }))
-          .sort((a: Transaction, b: Transaction) => Date.parse(b.date) - Date.parse(a.date))
-          .slice(0, 5); 
+        
 
-        setTransactions(sortedTransactions);
+        const sortedTransactions = data.latest_transactions
+        .map((transaction: Transaction) => {
+          const customNameReplacements = {
+            "UBER CANADA/UBEREATSTORON": "Uber-Eats",
+            "Miscellaneous Payment ETT*TheoRENT": "Theo",
+            "OPOS 12.95 ExpressVPN 310-6": "Express-VPN",
+            "OPOS StuDocuCOM Amste": "StuDocuCOM",
+            "WITHDRAWAL FREE INTERAC E-TRANSFER": "E-TRANSFER"
+
+
+          };
+          const customName = Object.entries(customNameReplacements).find(([key,]) => 
+            transaction.name.includes(key));
+      
+          return {
+            ...transaction,
+            name: customName ? customNameReplacements[customName[0]] :
+                  transaction.name.replace(/^(POS Purchase|OPOS|Purchase|POS)\s*/, ''),
+            category: [transaction.category[0]]
+          };
+        })
+        .sort((a: Transaction, b: Transaction) => Date.parse(b.date) - Date.parse(a.date))
+        .slice(0, 5); // Take the top 5 sorted by most recent
+      
+      setTransactions(sortedTransactions);
       } catch (error) {
         console.error('There was an issue fetching the transactions:', error);
         setError('Failed to load transactions. Please try again.'); 
@@ -74,28 +91,32 @@ const TransactionsCard: React.FC = () => {
 
   return (
     <div className="bg-white shadow rounded-lg">
-      <div className="p-4 border-b">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold">Recent Transactions</h2>
+      <div className="pt-4 pr-4 pl-4 pb-2 border-b flex justify-between items-center">
+        <div className="flex flex-col">
+          <h2 className="text-sm font-bold text-[#7886A4]">TRANSACTIONS</h2>
+          <h2 className="text-lg font-semibold text-[#082864]">Most Recent</h2>
+        </div>
           <button
             onClick={handleViewAllClick}
             className="bg-transparent hover:bg-gray-200 font-semibold py-1 px-2 border border-gray-300 rounded"
           >
             View all
           </button>
-        </div>
+      </div>
         {error ? (
           <div className="text-red-500">{error}</div>
         ) : (
           transactions.map((transaction, index) => (
-            <div key={index} className="flex justify-between items-center py-3 border-b">
+            <div key={index} className="flex justify-between items-center pl-4 py-3 border-b">
               <div className="flex items-center">
                 {renderIcon(transaction.category[0])}
-                <span className="font-medium">{transaction.name}</span>
-                <span className="text-gray-500 mx-2">{transaction.category[0]}</span>
+                <span className="font-normal">{transaction.name}</span>
               </div>
-              <div className="flex items-center">
-                <span className={`${transaction.amount < 0 ? 'text-red-500' : 'text-green-500'} font-bold`}>
+              <div className="flex items-center justify-center w-full">
+                <span className="text-gray-500 mx-auto">{transaction.category[0]}</span>
+              </div>
+              <div className="flex items-center pr-4">
+                <span className={`${transaction.amount < 0 ? 'text-green-500' : 'text-[#082864]'} font-normal`}>
                   ${transaction.amount.toFixed(2)}
                 </span>
                 <BsThreeDotsVertical className="text-gray-500 ml-2" />
@@ -104,7 +125,6 @@ const TransactionsCard: React.FC = () => {
           ))
         )}
       </div>
-    </div>
   );
 };
 

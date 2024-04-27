@@ -230,7 +230,7 @@ def create_link_token():
         # Prepare the Link token request configuration
         config = LinkTokenCreateRequest(
             products=products,
-            client_name="Plaid Quickstart",
+            client_name="WealthWise",
             country_codes=list(map(lambda x: CountryCode(x), PLAID_COUNTRY_CODES)),
             language='en',
             user=LinkTokenCreateRequestUser(

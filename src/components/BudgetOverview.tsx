@@ -29,7 +29,7 @@ const BudgetOverview: React.FC = () => {
         const data = await response.json();
         const aprilTransactions = data.latest_transactions.filter((transaction: Transaction) => {
           const transactionDate = new Date(transaction.date);
-          return transactionDate.getMonth() === 3; // April is month 3 in Date (0-indexed)
+          return transactionDate.getMonth() === 3;
         });
 
         const totalIncome = aprilTransactions
