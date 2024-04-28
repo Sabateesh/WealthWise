@@ -4,6 +4,7 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import BudgetOverview from '../components/BudgetOverview';
 import CashflowChart from '../components/CashFlowChart';
 import IncomeCard from '../components/IncomeCard';
+import ExpensesCard from '../components/ExpensesCard';
 const CashFlow: React.FC = () => {
   return (
     <div className="pr-0 pl-0 mr-0 ml-0 w-full">
@@ -19,6 +20,9 @@ const CashFlow: React.FC = () => {
       </div>
       <div className="mt-6 p-3">
           <IncomeCard/>
+      </div>
+      <div className="mt-6 p-3">
+          <ExpensesCard/>
       </div>
     </div>
   );
